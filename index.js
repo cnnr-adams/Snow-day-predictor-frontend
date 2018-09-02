@@ -3,6 +3,7 @@ const express = require("express");
 const request = require("request");
 const app = express();
 const zipcodes = require('zipcodes');
+const cmd = require("node-cmd");
 /* serves main page */
 app.get("/", function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -37,7 +38,9 @@ app.get("/result/:postalCode/:date", function (req, res) {
             if (meanTemp !== 0) {
                 meanTemp /= allHoursInDay.length;
             }
-            res.send({ minTemp: minTemp, maxTemp: maxTemp, meanTemp: meanTemp, rainFall: rainFall, snowFall: snowFall, data: allHoursInDay });
+            cmd.get(``, function (error, data, stderr) {
+                res.send({ minTemp: minTemp, maxTemp: maxTemp, meanTemp: meanTemp, rainFall: rainFall, snowFall: snowFall });
+            })
         } else {
             res.sendStatus(404);
         }

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cnnr-adams/Snow-day-predictor-frontend#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "node-cmd": "^3.0.0",
     "request": "^2.88.0",
     "zipcodes": "^7.0.0"
   }
