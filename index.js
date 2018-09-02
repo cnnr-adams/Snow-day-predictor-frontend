@@ -11,7 +11,6 @@ app.get("/", function (req, res) {
 
 app.get("/result/:postalCode/:date", function (req, res) {
     const lookup = zipcodes.lookup(req.params.postalCode.toUpperCase());
-    console.log(`http://api.openweathermap.org/data/2.5/forecast?lat=${lookup.latitude}&lon=${lookup.longitude}&units=metric&APPID=${apiKey}`);
     request(`http://api.openweathermap.org/data/2.5/forecast?lat=${lookup.latitude}&lon=${lookup.longitude}&units=metric&APPID=${apiKey}`, function (error, response, body) {
         const allHoursInDay = [];
         JSON.parse(body).list.forEach(val => {
@@ -19,7 +18,6 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 allHoursInDay.push(val);
             }
         });
-        //console.log(allHoursInDay[0].main);
         if (allHoursInDay.length > 0) {
             let minTemp = Number.MAX_SAFE_INTEGER;
             let maxTemp = -Number.MAX_SAFE_INTEGER;
@@ -38,8 +36,8 @@ app.get("/result/:postalCode/:date", function (req, res) {
             if (meanTemp !== 0) {
                 meanTemp /= allHoursInDay.length;
             }
-            cmd.get(``, function (error, data, stderr) {
-                res.send({ minTemp: minTemp, maxTemp: maxTemp, meanTemp: meanTemp, rainFall: rainFall, snowFall: snowFall });
+            cmd.get(`python ${__dirname}/predict.py ${maxTemp} ${meanTemp} ${minTemp} 0 ${rainFall} ${rainFall} ${snowFall}`, function (error, data, stderr) {
+                res.send(data);
             })
         } else {
             res.sendStatus(404);
