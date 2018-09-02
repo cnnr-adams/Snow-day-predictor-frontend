@@ -1,7 +1,8 @@
 console.log("yeet on the haters");
 
 let postalCode = "";
-let date = "";
+let date;
+inputDate(1);
 
 function inputPostalCode(value) {
     postalCode = value;
@@ -9,16 +10,18 @@ function inputPostalCode(value) {
 }
 
 function inputDate(value) {
-    date = value;
-    console.log(`yeet on the ${value}`);
+    var d = new Date();
+    d.setDate(d.getDate() + value);
+    date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+    console.log(`yote on this date: ${date}`);
 }
 
 function submit() {
-    if (postalCode.length > 0 && date.length > 0) {
+    if (postalCode.length > 0 || date.length > 0) {
         console.log("done yeeted");
         window.location.href = `result/${postalCode}/${date}`;
     } else {
-        console.log("go commit die");
+        alert("you forgot to put in the stuff LOSER");
     }
 }
 

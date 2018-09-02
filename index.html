@@ -24,8 +24,15 @@
             If it is a snow day be sure to yeet on the dabbers
             <br>
             <input type="text" placeholder="Postal Code" oninput="inputPostalCode(this.value)">
+            <br> Select a date
             <br>
-            <input type="text" placeholder="Date (YYYY/MM/DD)" oninput="inputDate(this.value)">
+            <select onchange="inputDate(this.value)">
+                <option value="1">Tommorow</option>
+                <option value="2">In two days</option>
+                <option value="3">In three days</option>
+                <option value="4">In four days</option>
+                <option value="5">In five days</option>
+            </select>
             <br>
             <button type="button" name="submit" onclick="submit()">SUBMTi</button>
             <br>
