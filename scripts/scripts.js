@@ -10,8 +10,9 @@ function inputPostalCode(value) {
 }
 
 function inputDate(value) {
+    console.log(value);
     var d = new Date();
-    d.setDate(d.getDate() + value);
+    d.setDate(d.getDate() + Number(value));
     date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
     console.log(`yote on this date: ${date}`);
 }
