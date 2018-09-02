@@ -4,6 +4,9 @@ const request = require("request");
 const app = express();
 const zipcodes = require('zipcodes');
 const cmd = require("node-cmd");
+const fs = require('fs');
+const mustache = require("mustache");
+
 /* serves main page */
 app.get("/", function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -37,7 +40,7 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 meanTemp /= allHoursInDay.length;
             }
             cmd.get(`python ${__dirname}/predict.py ${maxTemp} ${meanTemp} ${minTemp} 0 ${rainFall} ${rainFall} ${snowFall}`, function (error, data, stderr) {
-                res.send(data);
+                res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: data * 100 }));
             })
         } else {
             res.sendStatus(404);
