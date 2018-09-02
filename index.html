@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Snow day predictor</title>
+    <title>Snow Day Predictor</title>
     <meta name="description" content="Predicts snow days with machine learning">
     <meta name="author" content="The New Unity Project Team">
 
@@ -17,27 +17,27 @@
     <div id="container">
         <div id="header">
             <p id="logo">
-                <a href="/">Snow day predictor</a>
+                <a href="/">Snow Day Predictor</a>
+                <br><div id="motto">Uses neural networks to predict snow days in North America</div>
             </p>
         </div>
         <div id="content">
-            If it is a snow day be sure to yeet on the dabbers
-            <br>
-            <input type="text" placeholder="Postal Code" oninput="inputPostalCode(this.value)">
-            <br> Select a date
-            <br>
+            <hr>
+            <input type="text" placeholder="Postal Code / ZIP code" oninput="inputPostalCode(this.value)">
+            <br> Select a date:
             <select onchange="inputDate(this.value)">
-                <option value="1">Tommorow</option>
+                <option value="1">Tomorrow</option>
                 <option value="2">In two days</option>
                 <option value="3">In three days</option>
                 <option value="4">In four days</option>
                 <option value="5">In five days</option>
             </select>
             <br>
-            <button type="button" name="submit" onclick="submit()">SUBMTi</button>
-            <br>
+            <button type="button" name="submit" onclick="submit()">Calculate Chance!</button>
+            <hr>
         </div>
         <div id="footer">
+            <a href="https://github.com/cnnr-adams/Snow-day-predictor-frontend">GitHub Project</a>
             <p>Connor, Caelan, Ryan, Dima 2018</p>
         </div>
     </div>

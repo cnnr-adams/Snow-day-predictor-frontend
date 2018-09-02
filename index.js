@@ -15,7 +15,8 @@ app.get("/", function (req, res) {
 app.get("/result/:postalCode/:date", function (req, res) {
     const lookup = zipcodes.lookup(req.params.postalCode.toUpperCase());
     if (!lookup) {
-        res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: "unknown data"}));
+        res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: "N/A" }));
+        return;
     }
     request(`http://api.openweathermap.org/data/2.5/forecast?lat=${lookup.latitude}&lon=${lookup.longitude}&units=metric&APPID=${apiKey}`, function (error, response, body) {
         if (error) {
@@ -52,7 +53,7 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 meanTemp /= allHoursInDay.length;
             }
             cmd.get(`python ${__dirname}/predict.py ${maxTemp} ${meanTemp} ${minTemp} 0 ${rainFall} ${rainFall} ${snowFall}`, function (error, data, stderr) {
-                res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: data * 100 }));
+                res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: Math.round(data * 10000) / 100 }));
             })
         } else {
             res.sendStatus(404);
