@@ -13,7 +13,7 @@ function inputDate(value) {
     console.log(value);
     var d = new Date();
     d.setDate(d.getDate() + Number(value));
-    date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+    date = `${d.getFullYear()}-${("0" + (d.getMonth() + 1)).slice(-2)}-${("0" + (d.getDate())).slice(-2)}`
     console.log(`yote on this date: ${date}`);
 }
 

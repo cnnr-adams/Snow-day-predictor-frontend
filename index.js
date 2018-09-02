@@ -19,7 +19,7 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 allHoursInDay.push(val);
             }
         });
-        console.log(allHoursInDay[0].main);
+        //console.log(allHoursInDay[0].main);
         if (allHoursInDay.length > 0) {
             let minTemp = Number.MAX_SAFE_INTEGER;
             let maxTemp = -Number.MAX_SAFE_INTEGER;
