@@ -1,4 +1,5 @@
 const apiKey = process.env.API_KEY || "555c576824c5ed5734d13427e008d819";
+
 const express = require("express");
 const request = require("request");
 const app = express();
@@ -61,10 +62,7 @@ app.get("/result/:postalCode/:date", function (req, res) {
     });
 })
 
-/* serves all the static files */
-app.get(/^(.+)$/, function (req, res) {
-    res.sendFile(__dirname + req.params[0]);
-})
+app.use(express.static(__dirname + '/public'));
 
 var port = process.env.PORT || 25565;
 app.listen(port, function () {
