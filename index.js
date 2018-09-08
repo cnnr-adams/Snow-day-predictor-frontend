@@ -1,10 +1,10 @@
 const apiKey = process.env.API_KEY || "555c576824c5ed5734d13427e008d819";
+var port = process.env.PORT || 80;
 
 const express = require("express");
 const request = require("request");
 const app = express();
 const zipcodes = require('zipcodes');
-const cmd = require("node-cmd");
 const fs = require('fs');
 const mustache = require("mustache");
 
@@ -31,7 +31,6 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 allHoursInDay.push(val);
             }
         });
-        console.log(allHoursInDay);
         if (allHoursInDay.length > 0) {
             let minTemp = Number.MAX_SAFE_INTEGER;
             let maxTemp = -Number.MAX_SAFE_INTEGER;
@@ -53,8 +52,16 @@ app.get("/result/:postalCode/:date", function (req, res) {
             if (meanTemp !== 0) {
                 meanTemp /= allHoursInDay.length;
             }
-            cmd.get(`python ${__dirname}/predict.py ${maxTemp} ${meanTemp} ${minTemp} 0 ${rainFall} ${rainFall} ${snowFall}`, function (error, data, stderr) {
-                res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: Math.round(data * 10000) / 100 }));
+            // TO WORK OUTSIDE OF DOCKER CONTAINERS: CHANGE 172.17.0.1:5000 TO localhost
+            request(`http://172.17.0.1:5000?maxTemp=${maxTemp}&meanTemp=${meanTemp}&minTemp=${minTemp}&snowOnGround=${0}&precipitation=${rainFall}&rainFall=${rainFall}&snowFall=${snowFall}`, function (e, r, b) {
+                console.log(b);
+                if (e) {
+                    console.log(e);
+                    res.sendStatus(500);
+                } else {
+                    res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: Math.round(b * 10000) / 100 }));
+                }
+
             })
         } else {
             res.sendStatus(404);
@@ -64,7 +71,6 @@ app.get("/result/:postalCode/:date", function (req, res) {
 
 app.use(express.static(__dirname + '/public'));
 
-var port = process.env.PORT || 25565;
 app.listen(port, function () {
     console.log("Listening on " + port);
 });
