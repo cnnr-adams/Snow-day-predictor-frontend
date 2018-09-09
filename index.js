@@ -53,7 +53,7 @@ app.get("/result/:postalCode/:date", function (req, res) {
                 meanTemp /= allHoursInDay.length;
             }
             // TO WORK OUTSIDE OF DOCKER CONTAINERS: CHANGE 172.17.0.1:5000 TO localhost
-            request(`http://172.17.0.1:5000?maxTemp=${maxTemp}&meanTemp=${meanTemp}&minTemp=${minTemp}&snowOnGround=${0}&precipitation=${rainFall}&rainFall=${rainFall}&snowFall=${snowFall}`, function (e, r, b) {
+            request(`http://172.17.0.1:5000?maxTemp=${maxTemp}&meanTemp=${meanTemp}&minTemp=${minTemp}&rainFall=${rainFall}&snowFall=${snowFall}`, function (e, r, b) {
                 console.log(b);
                 if (e) {
                     console.log(e);
