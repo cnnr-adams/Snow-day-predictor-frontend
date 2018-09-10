@@ -16,7 +16,8 @@ app.get("/", function (req, res) {
 app.get("/result/:postalCode/:date", function (req, res) {
     const lookup = zipcodes.lookup(req.params.postalCode.toUpperCase());
     if (!lookup) {
-        res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: "N/A" }));
+        console.log(`User sent invalid postal code: ${req.params.postalCode.toUpperCase()}`);
+        res.sendFile(__dirname + '/result/404.html');
         return;
     }
     request(`http://api.openweathermap.org/data/2.5/forecast?lat=${lookup.latitude}&lon=${lookup.longitude}&units=metric&APPID=${apiKey}`, function (error, response, body) {
