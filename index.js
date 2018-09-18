@@ -7,6 +7,7 @@ const app = express();
 const zipcodes = require('zipcodes');
 const fs = require('fs');
 const mustache = require("mustache");
+const predictor = require('./scripts/predictor.js');
 
 /* serves main page */
 app.get("/", function (req, res) {
@@ -52,17 +53,10 @@ app.get("/result/:postalCode/:date", function (req, res) {
             if (meanTemp !== 0) {
                 meanTemp /= allHoursInDay.length;
             }
-            // TO WORK OUTSIDE OF DOCKER CONTAINERS: CHANGE 172.17.0.1:5000 TO localhost
-            request(`http://172.17.0.1:5000?maxTemp=${maxTemp}&meanTemp=${meanTemp}&minTemp=${minTemp}&rainFall=${rainFall}&snowFall=${snowFall}`, function (e, r, b) {
-                console.log(b);
-                if (e) {
-                    console.log(e);
-                    res.sendStatus(500);
-                } else {
-                    res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: Math.round(b * 10000) / 100 }));
-                }
 
-            })
+            b = predictor.predict(maxTemp, meanTemp, minTemp, rainFall, snowFall)
+
+            res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: Math.round(b * 10000) / 100 }));
         } else {
             res.sendStatus(404);
         }
