@@ -8,6 +8,10 @@ const zipcodes = require('zipcodes');
 const fs = require('fs');
 const mustache = require("mustache");
 const predictor = require('./scripts/predictor.js');
+const favicon = require("serve-favicon");
+const path = require('path');
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 /* serves main page */
 app.get("/", function (req, res) {
@@ -17,7 +21,8 @@ app.get("/", function (req, res) {
 app.get("/result/:postalCode/:date", function (req, res) {
     const lookup = zipcodes.lookup(req.params.postalCode.toUpperCase());
     if (!lookup) {
-        res.send(mustache.render(fs.readFileSync("./result/index.html").toString(), { data: "N/A" }));
+        console.log(`User sent invalid postal code: ${req.params.postalCode.toUpperCase()}`);
+        res.sendFile(__dirname + '/result/404.html');
         return;
     }
     request(`http://api.openweathermap.org/data/2.5/forecast?lat=${lookup.latitude}&lon=${lookup.longitude}&units=metric&APPID=${apiKey}`, function (error, response, body) {
@@ -64,7 +69,6 @@ app.get("/result/:postalCode/:date", function (req, res) {
 })
 
 app.use(express.static(__dirname + '/public'));
-
 app.listen(port, function () {
     console.log("Listening on " + port);
 });
