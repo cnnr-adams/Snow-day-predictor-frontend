@@ -7,6 +7,10 @@ const app = express();
 const zipcodes = require('zipcodes');
 const fs = require('fs');
 const mustache = require("mustache");
+const favicon = require("serve-favicon");
+const path = require('path');
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 /* serves main page */
 app.get("/", function (req, res) {
@@ -71,7 +75,6 @@ app.get("/result/:postalCode/:date", function (req, res) {
 })
 
 app.use(express.static(__dirname + '/public'));
-
 app.listen(port, function () {
     console.log("Listening on " + port);
 });
