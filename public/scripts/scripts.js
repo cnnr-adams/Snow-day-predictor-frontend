@@ -12,7 +12,10 @@ function inputDate(value) {
     date = `${d.getFullYear()}-${("0" + (d.getMonth() + 1)).slice(-2)}-${("0" + (d.getDate())).slice(-2)}`;
 }
 
-function submit() {
+function submit(postalCodeVal, dateVal) {
+    inputPostalCode(postalCodeVal);
+    inputDate(dateVal);
+
     if (postalCode.length > 0 && date.length > 0) {
         window.location.href = `result/${postalCode}/${date}`;
     } else {

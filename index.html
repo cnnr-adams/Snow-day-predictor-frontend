@@ -38,9 +38,9 @@
         </div>
         <div id="content">
             <hr>
-            <input type="text" placeholder="Postal Code / ZIP code" oninput="inputPostalCode(this.value)">
+            <input id="postalcode" type="text" placeholder="Postal Code / ZIP code">
             <br> Select a date:
-            <select onchange="inputDate(this.value)">
+            <select id="date">
                 <option value="1">Tomorrow</option>
                 <option value="2">In two days</option>
                 <option value="3">In three days</option>
@@ -48,12 +48,12 @@
                 <option value="5">In five days</option>
             </select>
             <br>
-            <button type="button" name="submit" onclick="submit()">Calculate Chance!</button>
+            <button type="button" name="submit" onclick="submit(document.getElementById('postalcode').value, document.getElementById('date').value)">Calculate Chance!</button>
             <hr>
         </div>
         <div id="footer">
             <a href="https://github.com/cnnr-adams/Snow-day-predictor-frontend">GitHub Project</a>
-            <p>Connor, Caelan, Ryan, Dima 2018</p>
+            <p>Connor, Caelan, Ryan, Dima 2019</p>
         </div>
     </div>
     <script src="scripts/scripts.js"></script>
