@@ -5,7 +5,9 @@ require('@tensorflow/tfjs-node');
 
 var model;
 
-tf.loadModel('file:///home/ryan/Snow-day-predictor-frontend/model/model.json').then(function (result) {
+console.log(__dirname)
+
+tf.loadModel('file://' + __dirname + '/../model/model.json').then(function (result) {
     console.log("Model loaded sucessfully")
     model = result;
 }, function (err) {
